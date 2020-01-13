@@ -55,7 +55,7 @@ export default function edit (s1, s2) {
     base.push(new Remove(s1[i]))
     dp[0] = {
       moves: [...base],
-      cost: i
+      cost: i + 1
     }
     for (j = 1; j < s2.length + 1; j++) {
       next = {}
@@ -65,17 +65,18 @@ export default function edit (s1, s2) {
           cost: prev.cost
         }
       } else {
-        next.cost = Math.min(
+        const min = Math.min(
           dp[j - 1].cost,
           dp[j].cost,
           prev.cost
         )
-        if (prev.cost === next.cost) {
+        next.cost = min + 1
+        if (prev.cost === min) {
           next.moves = [...prev.moves, new Replace(s1[i], s2[j - 1])]
         } else {
           var valid = []
-          if (dp[j - 1].cost === next.cost) valid.push(new Add(s2[j - 1]))
-          if (dp[j].cost === next.cost) valid.push(new Remove(s1[i]))
+          if (dp[j - 1].cost === min) valid.push(new Add(s2[j - 1]))
+          if (dp[j].cost === min) valid.push(new Remove(s1[i]))
 
           const move = valid[Math.floor(Math.random() * valid.length)]
 
