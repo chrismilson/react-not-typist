@@ -1,0 +1,39 @@
+.NotTypist {
+    display: inline-block;
+    position: relative;
+    bottom: 0;
+}
+
+.Changer {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    animation: widen 1s both;
+}
+
+.Changer .space {
+    visibility: hidden;
+}
+
+.Changer .from, .Changer .to {
+    position: absolute;
+    animation: appear 0.7s both;
+    animation-delay: 1.3s;
+    top: 0;
+}
+
+.Changer .from {
+    user-select: none;
+    animation-direction: reverse;
+    animation-delay: 1s;
+}
+
+@keyframes appear {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+
+@keyframes widen {
+    from { width: var(--from-width) }
+    to { width: var(--to-width) }
+}
