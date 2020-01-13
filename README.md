@@ -4,7 +4,7 @@ React component for cycling through different strings. A lot of similar
 components will cycle through with a typing animation. This component offers a
 different style.
 
-<!-- Animated gif of text rotation -->
+<img src="demo/demo.gif" alt="The component in action" height=100 />
 
 ## Installation
 
@@ -18,10 +18,16 @@ npm install react-not-typist --save
 import NotTypist from 'react-not-typist';
 
 function Plans (props) {
-    return (
-        <p>
-            Lets get a <NotTypist words={['Water', 'Soda Water', 'Banana']} />.
-        </p>
-    )
+  return (
+    <p>
+      That was <NotTypist 
+        words={[
+          'exciting',
+          'interesting',
+          'frightening'
+        ]}
+      />.
+    </p>
+  )
 }
 ```
