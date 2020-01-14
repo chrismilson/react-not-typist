@@ -23,16 +23,13 @@ class Changer extends React.Component {
       toWidth: 0
     }
 
-    this.fromSpace = props.from === ' '
-    this.toSpace = props.to === ' '
-
-    this.state.from = this.fromSpace ? 't' : props.from
-    this.state.to = this.toSpace ? 't' : props.to
-
     this.from = React.createRef()
     this.to = React.createRef()
   }
 
+  /**
+   * On mount, get the width of each character and store the value.
+   */
   componentDidMount () {
     var fromWidth = this.from.current.offsetWidth
     var toWidth = this.to.current.offsetWidth
@@ -41,8 +38,18 @@ class Changer extends React.Component {
     this.calculated = true
   }
 
+  /**
+   * Use the stored width values as variable inputs into the styles and animate
+   * with these variables.
+   *
+   * We don't want any characters to overlap. So we first make the growing
+   * characters grow, then we fade all the characters at the same time, and then
+   * we make the shrinking characters shrink. This is controlled with the
+   * animation delay.
+   */
   render () {
-    const { fromWidth, toWidth, from, to } = this.state
+    const { from, to } = this.props
+    const { fromWidth, toWidth } = this.state
 
     return (
       <span
@@ -50,32 +57,45 @@ class Changer extends React.Component {
         style={this.calculated && {
           '--from-width': fromWidth + 'px',
           '--to-width': toWidth + 'px',
-          animationDelay: fromWidth < toWidth ? '0s' : '2s'
+          animationDelay: (fromWidth < toWidth ? 0 : 2) + 's'
         }}
-        aria-hidden
       >
         <span
-          className={'from' + (this.fromSpace ? ' space' : '')}
           ref={this.from}
-        >{ from }</span>
+          className={'from' + (from === ' ' ? ' space' : '')}
+        >{ from === ' ' ? 't' : from }</span>
         <span
-          className={'to' + (this.toSpace ? ' space' : '')}
           ref={this.to}
-        >{ to }</span>
+          className={'to' + (to === ' ' ? ' space' : '')}
+        >{ to === ' ' ? 't' : to }</span>
       </span>
     )
   }
 }
 
+/**
+ * A react text carousel that performs different character operations on strings
+ * to transform them from one into another. When supplied with an array of
+ * strings, it will rotate through displaying each of the strings, and the
+ * transition between the strings is based on the Levenshtein distance between
+ * the strings.
+ */
 class NotTypist extends React.Component {
   constructor (props) {
     super(props)
 
-    this.state = {
-      display: []
-    }
+    this.state = { display: [] }
+
+    /**
+     * a variable to make sure that react knows the props are not just being
+     * updated, and it should render a new component to the DOM.
+     */
     this.key = 0
-    this.cur = 0 // the index of the current word
+
+    /**
+     * This is the index of the currently displayed word in props.words
+     */
+    this.cur = 0
   }
 
   componentDidMount () { this.next() }
@@ -83,24 +103,31 @@ class NotTypist extends React.Component {
   componentWillUnmount () { clearInterval(this.timeout) }
 
   next () {
-    if (this.props.words.length < 1) return
+    // If there are less than two words there is nothing to cycle through.
+    if (this.props.words.length < 2) return
     const next = (this.cur + 1) % this.props.words.length
 
-    const a = this.props.words[this.cur]
-    const b = this.props.words[next]
+    const from = this.props.words[this.cur]
+    const to = this.props.words[next]
 
-    this.cur = next
-    this.setState({ display: edit(a, b) })
+    this.setState({ display: edit(from, to) })
+    this.cur = next // update cur
 
     this.timeout = setTimeout(() => this.next(), 4000)
   }
 
   render () {
+    if (this.props.words.length < 1) return null
     return (
       <span className='NotTypist' aria-label={this.props.words[this.cur]}>
-        {this.state.display.map(c => (
-          <Changer key={this.key++} from={c.orig} to={c.next} />
-        ))}
+        {
+          // if theres only one word we dont need to change anything
+          this.props.words.length === 1
+            ? this.props.words[this.cur]
+            : this.state.display.map(move => (
+              <Changer key={this.key++} from={move.from} to={move.to} />
+            ))
+        }
       </span>
     )
   }
