@@ -11,8 +11,6 @@ import './style.css'
  *
  * It will first display the from character, and then morph into the second
  * character.
- *
- * @param {*} props
  */
 class Changer extends React.Component {
   constructor (props) {
