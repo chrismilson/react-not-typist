@@ -20,6 +20,7 @@
     animation: appear 0.7s both;
     animation-delay: 1.3s;
     top: 0;
+    white-space: pre;
 }
 
 .Changer .from {

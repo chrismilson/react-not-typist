@@ -58,14 +58,8 @@ class Changer extends React.Component {
           animationDelay: (fromWidth < toWidth ? 0 : 2) + 's'
         }}
       >
-        <span
-          ref={this.from}
-          className={'from' + (from === ' ' ? ' space' : '')}
-        >{ from === ' ' ? 't' : from }</span>
-        <span
-          ref={this.to}
-          className={'to' + (to === ' ' ? ' space' : '')}
-        >{ to === ' ' ? 't' : to }</span>
+        <span ref={this.from} className='from'>{ from }</span>
+        <span ref={this.to} className='to'>{ to }</span>
       </span>
     )
   }
