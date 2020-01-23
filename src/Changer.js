@@ -13,10 +13,10 @@ import PropTypes from 'prop-types'
 export default function Changer ({ char, speed }) {
   // when the character updates, the cleanup on the effect will be called,
   // setting the prev to the memorised value.
-  const [prev, setPrev] = useState('')
+  const [[curr, prev], setDisplay] = useState(['', ''])
   useEffect(() => {
-    const memo = char
-    return () => setPrev(memo)
+    // the current character becomes the previous
+    setDisplay(([curr, prev]) => [char, curr])
   }, [char])
 
   // CSS will not transition auto-width elements, so we will measure the width
@@ -29,7 +29,7 @@ export default function Changer ({ char, speed }) {
       widthRef.current.offsetWidth,
       oldWidth < widthRef.current.offsetWidth
     ])
-  }, [char])
+  }, [curr])
 
   // there are two animations to complete:
   // - The widening of the parent (a transition), and;
@@ -55,7 +55,7 @@ export default function Changer ({ char, speed }) {
       <span
         ref={widthRef}
         className='current'
-      >{ char }</span>
+      >{ curr }</span>
     </span>
   )
 }
