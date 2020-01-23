@@ -1,40 +1,38 @@
 .NotTypist {
-    display: inline-block;
+    display: inline-flex;
     position: relative;
-    bottom: 0;
+    height: 1em;
+    min-width: 1px;
 }
 
 .Changer {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    animation: widen 1s both;
+    transition: width var(--speed) var(--widen-delay) ease;
 }
 
-.Changer .space {
-    visibility: hidden;
-}
-
-.Changer .from, .Changer .to {
+.Changer span {
     position: absolute;
-    animation: appear 0.7s both;
-    animation-delay: 1.3s;
     top: 0;
-    white-space: pre;
 }
 
-.Changer .from {
-    user-select: none;
+.Changer .previous { opacity: 0; }
+.Changer .current { opacity: 1; }
+
+.Changer.fading span {
+    animation-name: fade;
+    animation-duration: var(--speed);
+    animation-delay: var(--speed);
+    animation-fill-mode: both;
+    animation-timing-function: linear;
+}
+
+.Changer.fading .previous {
     animation-direction: reverse;
-    animation-delay: 1s;
 }
 
-@keyframes appear {
-    from { opacity: 0 }
-    to { opacity: 1 }
-}
-
-@keyframes widen {
-    from { width: var(--from-width) }
-    to { width: var(--to-width) }
+@keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }

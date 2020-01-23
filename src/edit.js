@@ -1,66 +1,38 @@
 /**
- * Gives information about a certain operation.
- *
- * When animating the character change, the type of change is not considered,
- * and all different types (leave, add, replace, remove) are considered
- * replacement moves, where add is seen as replacing the empty string with a
- * character, remove is replacing a character with the empty string and leave is
- * replacing a character with itself.
+ * The different moves each encode a specific way to edit a single character.
  */
-class Move {
-  constructor (type, from, to) {
-    this.type = type
-    this.from = from
-    this.to = to
-  }
-}
 
-/**
- * Corresponds to leaving the current character as is.
- */
-class Leave extends Move {
-  constructor (char) {
-    super('leave', char, char)
-  }
-}
+const leave = () => ({ type: 'leave' })
 
-/**
- * Corresponds to adding a new character.
- */
-class Add extends Move {
-  constructor (char) {
-    super('add', '', char)
-  }
-}
+const add = char => ({ type: 'add', char })
 
-/**
- * Corresponds to replacing a character with another.
- */
-class Replace extends Move {
-  constructor (from, to) {
-    super('replace', from, to)
-  }
-}
+const replaceWith = char => ({ type: 'replace', char })
 
-/**
- * Corresponds to removing a given character.
- */
-class Remove extends Move {
-  constructor (char) {
-    super('remove', char, '')
-  }
-}
+const remove = () => ({ type: 'remove' })
 
 /**
  * Calculates a sequence of moves (add a char, remove a char, replace a char -
  * each with cost 1, and leave a char with cost 0) with minimal cost; equal to
  * the Levenshtein distance between the strings.
  *
+ * Returns an array of objects detaining the sequence of moves for each
+ * character.
+ *
+ * @example
+ * // returns [
+ * //  { type: 'replace', char: 'r' },
+ * //   { type: 'leave' },
+ * //   { type: 'remove' },
+ * //   { type: 'leave' },
+ * //   { type: 'remove' }
+ * // ]
+ * edit('horse', 'ros')
+ *
  * @param {string} from
  * @param {string} to
  * @returns {Move[]}
  */
-export default function edit (from, to) {
+function edit (from, to) {
   /**
    * dp is a |from| x |to| sized 2d array, where dp[i][j] is
    *
@@ -80,14 +52,14 @@ export default function edit (from, to) {
     dp[i] = new Array(to.length + 1)
     dp[i][0] = {
       cost: i,
-      move: new Remove(from[i - 1])
+      move: remove(from[i - 1])
     }
   }
   // The row dp[0][j] corresponds to the number of moves from the empty string
   // to the 'to' string, this will consist only of Add moves.
   for (j = 1; j < to.length + 1; j++) {
     dp[0][j] = {
-      move: new Add(to[j - 1]),
+      move: add(to[j - 1]),
       cost: j
     }
   }
@@ -117,7 +89,7 @@ export default function edit (from, to) {
       if (from[i - 1] === to[j - 1]) {
         dp[i][j] = {
           cost: dp[i - 1][j - 1].cost,
-          move: new Leave(from[i - 1])
+          move: leave()
         }
       } else {
         // The minimum cost of strings that are 1 move away
@@ -127,19 +99,19 @@ export default function edit (from, to) {
           dp[i][j - 1].cost
         )
         // If there are multiple ways to do the move, we will choose randomly.
-        var valid = []
+        var validMoves = []
         if (min === dp[i - 1][j - 1].cost) {
-          valid.push(new Replace(from[i - 1], to[j - 1]))
+          validMoves.push(replaceWith(to[j - 1]))
         }
         if (min === dp[i - 1][j].cost) {
-          valid.push(new Remove(from[i - 1]))
+          validMoves.push(remove())
         }
         if (min === dp[i][j - 1].cost) {
-          valid.push(new Add(to[j - 1]))
+          validMoves.push(add(to[j - 1]))
         }
         dp[i][j] = {
           cost: min + 1,
-          move: valid[Math.floor(Math.random() * valid.length)]
+          move: validMoves[Math.floor(Math.random() * validMoves.length)]
         }
       }
     }
@@ -151,9 +123,13 @@ export default function edit (from, to) {
    */
   var moves = []
   for (i = from.length, j = to.length; i > 0 || j > 0; i--, j--) {
-    moves.push(dp[i][j].move)
-    if (dp[i][j].move.type === 'add') i++ // only decrement j
-    else if (dp[i][j].move.type === 'remove') j++ // only decrement i
+    const move = dp[i][j].move
+    moves.push(move)
+
+    if (move.type === 'add') i++ // only decrement j
+    else if (move.type === 'remove') j++ // only decrement i
   }
   return moves.reverse()
 }
+
+export default edit
