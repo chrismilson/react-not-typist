@@ -18,8 +18,11 @@
     top: 0;
 }
 
-.Changer .previous { opacity: 0; }
 .Changer .current { opacity: 1; }
+.Changer .previous {
+    opacity: 0;
+    user-select: none;
+}
 
 .Changer.fading span {
     animation-name: fade;
