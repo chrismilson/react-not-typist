@@ -10,6 +10,7 @@
     flex-direction: column;
     align-items: center;
     transition: width var(--speed) var(--widen-delay) ease;
+    white-space: pre;
 }
 
 .Changer span {
