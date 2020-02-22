@@ -8,7 +8,12 @@
     "lib/**/*"
   ],
   "scripts": {
-    "build": "webpack"
+    "build": "rollup -c",
+    "lint": "eslint src/**/* --ext .js,.jsx,.ts,.tsx",
+    "prepare": "yarn build",
+    "preversion": "yarn lint",
+    "version": "yarn lint --fix && git add -A src",
+    "postVersion": "git push && git push --tags"
   },
   "author": {
     "name": "Chris Milson",
