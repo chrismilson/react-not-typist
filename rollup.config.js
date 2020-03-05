@@ -7,5 +7,5 @@ export default {
     format: 'cjs'
   },
   plugins: [typescript()],
-  externals: ['react', 'prop-types']
+  external: ['react', 'prop-types']
 }
