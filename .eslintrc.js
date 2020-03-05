@@ -11,7 +11,7 @@ module.exports = {
     sourceType: 'module',
     ecmaFeatures: { jsx: true }
   },
-  ignorePatterns: ['build', 'node_modules'],
+  ignorePatterns: ['lib', 'node_modules'],
   settings: {
     react: { version: 'detect' }
   },
