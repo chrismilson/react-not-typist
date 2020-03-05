@@ -28,10 +28,6 @@
     "url": "https://github.com/chrismilson/react-not-typist/issues"
   },
   "homepage": "https://github.com/chrismilson/react-not-typist#readme",
-  "peerDependencies": {
-    "prop-types": "^15.7.2",
-    "react": "^16.12.0"
-  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
@@ -42,5 +38,9 @@
     "rollup": "^1.31.1",
     "rollup-plugin-typescript2": "^0.26.0",
     "typescript": "^3.8.2"
+  },
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "react": "^16.13.0"
   }
 }
