@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/chrismilson/react-not-typist#readme",
   "devDependencies": {
+    "@types/prop-types": "^15.7.3",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
     "eslint": "^6.8.0",
