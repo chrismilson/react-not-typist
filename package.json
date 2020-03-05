@@ -5,7 +5,7 @@
   "main": "lib/NotTypist.js",
   "types": "lib/NotTypist.d.ts",
   "scripts": {
-    "build": "webpack"
+    "build": "rollup -c"
   },
   "author": {
     "name": "Chris Milson",
