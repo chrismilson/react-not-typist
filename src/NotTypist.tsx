@@ -1,13 +1,17 @@
 import React from 'react'
-import { NotTypistProps as Props } from './types/props'
+import { NotTypistProps } from './types/props'
 import PropTypes from 'prop-types'
 import useRotate from './hooks/useRotate'
 
 /**
+ * A text carousel that performs different character operations on strings to
+ * transform them from one into another.
  *
- * @param props
+ * When supplied with an array of strings,
+ * it will rotate through displaying each of the strings, and the transition
+ * between the strings is based on the Levenshtein distance between the strings.
  */
-const NotTypist: React.FC<Props> = props => {
+const NotTypist: React.FC<NotTypistProps> = props => {
   const { words, speed, delay } = props
 
   const display = useRotate(words, speed + delay)
