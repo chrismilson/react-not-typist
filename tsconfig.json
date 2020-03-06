@@ -3,6 +3,7 @@
     "declaration": true,
     "module": "es6",
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "target": "esnext",
     "jsx": "react"
   },
