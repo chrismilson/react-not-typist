@@ -33,5 +33,5 @@ test('An edit should be the same length as the levenshtein distance', () => {
     "I need to let you know about the long test; it's very important",
     "This is a really really long test. I hope it isn't important"
   )
-  expect(moves.filter(m => m.type !== MoveType.LEAVE)).toHaveLength(40)
+  expect(moves.filter(m => m.type !== MoveType.LEAVE)).toHaveLength(42)
 })
