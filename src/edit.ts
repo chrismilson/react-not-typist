@@ -1,6 +1,23 @@
 import { Move, MoveListNode } from './types/moves'
 import { leave, add, remove, replace } from './moves'
 
+/**
+ * Produces a list of moves to edit a given string into another string. The
+ * order of the moves should follow the order of characters in the given string.
+ *
+ * for example, calculateMoves('horse', 'ros') should return an array of the
+ * form [replace 'r', leave, remove, leave, remove].
+ *
+ * This should be interpreted as
+ * 1. replace h with r
+ * 2. leave o
+ * 3. remove r
+ * 4. leave s
+ * 5. remove e
+ *
+ * @param from The current string
+ * @param to The target string
+ */
 const calculateMoves = (from: string, to: string): Move[] => {
   /**
    * A two dimentional array that contains the moves to edit from a prefix of
