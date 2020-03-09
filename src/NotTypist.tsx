@@ -22,7 +22,7 @@ const NotTypist: React.FC<NotTypistProps> = props => {
   return (
     <span className="NotTypist">
       {displayChars.map(({ key, char }) => (
-        <Changer key={key} char={char} />
+        <Changer key={key} char={char} speed={speed} />
       ))}
     </span>
   )
