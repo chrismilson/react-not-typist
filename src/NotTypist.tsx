@@ -3,6 +3,7 @@ import { NotTypistProps } from './types/props'
 import PropTypes from 'prop-types'
 import useRotate from './hooks/useRotate'
 import useEdit from './hooks/useEdit'
+import Changer from './Changer'
 
 /**
  * A text carousel that performs different character operations on strings to
@@ -18,7 +19,13 @@ const NotTypist: React.FC<NotTypistProps> = props => {
   const currentWord = useRotate(words, speed + delay)
   const displayChars = useEdit(currentWord)
 
-  return <span className="NotTypist">{displayChars.map(s => s.char)}</span>
+  return (
+    <span className="NotTypist">
+      {displayChars.map(({ key, char }) => (
+        <Changer key={key} char={char} />
+      ))}
+    </span>
+  )
 }
 
 NotTypist.propTypes = {
