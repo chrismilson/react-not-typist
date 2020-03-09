@@ -28,10 +28,17 @@ test('A single character change should be a replacement', () => {
   expect(moves[0].type).toBe(MoveType.REPLACE)
 })
 
-test('An edit should be the same length as the levenshtein distance', () => {
-  const moves = calculateMoves(
+test.each([
+  [
     "I need to let you know about the long test; it's very important",
-    "This is a really really long test. I hope it isn't important"
-  )
-  expect(moves.filter(m => m.type !== MoveType.LEAVE)).toHaveLength(42)
-})
+    "This is a really really long test. I hope it isn't important",
+    42
+  ],
+  ['happy happy happy boy', 'fally downy the hill', 16]
+])(
+  'An edit should be the same length as the levenshtein distance',
+  (from, to, cost) => {
+    const moves = calculateMoves(from, to)
+    expect(moves.filter(m => m.type !== MoveType.LEAVE)).toHaveLength(cost)
+  }
+)
