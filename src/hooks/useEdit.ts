@@ -5,7 +5,7 @@ import { MoveType } from '../types/moves'
 
 class KeyPool {
   _free: number[]
-  _next: number
+  _next = 0
 
   free(key: number): void {
     this._free.push(key)
