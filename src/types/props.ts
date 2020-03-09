@@ -6,3 +6,8 @@ export interface NotTypistProps {
   /** The time waited between word transitions. */
   readonly delay?: number
 }
+
+export interface ChangerProps {
+  /** The current character to display. */
+  readonly char: string
+}
