@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { ChangerProps } from './types/props'
 import usePrevious from './hooks/usePrevious'
+import './Changer.scss'
 
 const Changer: React.FC<ChangerProps> = props => {
   const { char: to, speed } = props
