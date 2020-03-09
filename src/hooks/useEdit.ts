@@ -17,6 +17,34 @@ class KeyPool {
   }
 }
 
+/**
+ * This hook takes a target string and will return an annotated string that
+ * allows downstream observers to infer what changes have been made to the
+ * target string.
+ *
+ * It does this by adding a key element to each character that will persist
+ * through character changes.
+ *
+ * For example, if the target was initially 'abc' and then suddenly became
+ * 'axc', if we assume the hook initially supplied:
+ *
+ * (read *x i* as {char: 'x', key: i})
+ *
+ * [a 0, b 1, c 2]
+ *
+ * it might then supply:
+ *
+ * [a 0, x 1, c 2]
+ *
+ * indicating that the b had been replaced by the x, OR
+ *
+ * [a 0, *empty string* 1, x 3, c 2]
+ *
+ * indicating that the b was removed and the x was added. In either case, what
+ * happened is quite explicit.
+ *
+ * @param target The string to follow
+ */
 export default function useEdit(target: string): EditableString {
   const [display, setDisplay] = useState<EditableString>([])
   const keys = useState(new KeyPool())[0] // always the same.
