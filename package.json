@@ -6,6 +6,7 @@
   "module": "lib/NotTypist.es.js",
   "types": "lib/NotTypist.d.ts",
   "scripts": {
+    "test": "jest",
     "lint": "eslint src/**/* --ext .tsx,.ts,.jsx,.js",
     "build": "rollup -c"
   },
