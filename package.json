@@ -8,7 +8,11 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint src/**/* --ext .tsx,.ts,.jsx,.js",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "prepare": "yarn build",
+    "preversion": "yarn lint",
+    "version": "yarn lint --fix && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "author": {
     "name": "Chris Milson",
