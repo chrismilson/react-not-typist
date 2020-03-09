@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import useRotate from './hooks/useRotate'
 import useEdit from './hooks/useEdit'
 import Changer from './Changer'
+import './NotTypist.scss'
 
 /**
  * A text carousel that performs different character operations on strings to
