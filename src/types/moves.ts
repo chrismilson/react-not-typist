@@ -1,3 +1,6 @@
+/**
+ * The different types of moves
+ */
 export enum MoveType {
   LEAVE = 'LEAVE',
   ADD = 'ADD',
@@ -5,6 +8,7 @@ export enum MoveType {
   REPLACE = 'REPLACE'
 }
 
+/* Some move actions */
 export interface LeaveMove {
   type: typeof MoveType.LEAVE
 }
@@ -23,4 +27,11 @@ export interface ReplaceMove {
   char: string
 }
 
+/** A union type for any move */
 export type Move = LeaveMove | AddMove | RemoveMove | ReplaceMove
+
+export type MoveListNode = {
+  cost: number
+  move: Move
+  previous: MoveListNode
+}
