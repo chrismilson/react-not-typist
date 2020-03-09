@@ -6,9 +6,12 @@ import { leave, add, remove, replace } from './moves'
  * order of the moves should follow the order of characters in the given string.
  *
  * for example, calculateMoves('horse', 'ros') should return an array of the
- * form [replace 'r', leave, remove, leave, remove].
+ * form:
  *
- * This should be interpreted as
+ * [replace 'r', leave, remove, leave, remove].
+ *
+ * This should be interpreted as:
+ *
  * 1. replace h with r
  * 2. leave o
  * 3. remove r
@@ -18,7 +21,7 @@ import { leave, add, remove, replace } from './moves'
  * @param from The current string
  * @param to The target string
  */
-const calculateMoves = (from: string, to: string): Move[] => {
+export function calculateMoves(from: string, to: string): Move[] {
   /**
    * A two dimentional array that contains the moves to edit from a prefix of
    * from to a prefix of to. the value at partial[i][j] is an object
