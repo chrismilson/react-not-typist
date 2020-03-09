@@ -10,4 +10,6 @@ export interface NotTypistProps {
 export interface ChangerProps {
   /** The current character to display. */
   readonly char: string
+  /** The time taken in miliseconds for the transition to complete */
+  readonly speed: number
 }
