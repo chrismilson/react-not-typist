@@ -58,7 +58,7 @@ export function calculateMoves(from: string, to: string): Move[] {
    * of editing from a string to the empty string. This will just be a remove
    * for every character; the length of the string.
    */
-  const partial: [[MoveListNode]] = [
+  const partial: MoveListNode[][] = [
     [
       {
         cost: 0,
@@ -114,7 +114,7 @@ export function calculateMoves(from: string, to: string): Move[] {
           partial[i][j].cost // replace
         )
 
-        const possibleNextMoves = []
+        const possibleNextMoves: MoveListNode[] = []
 
         if (partial[i + 1][j].cost === minCost) {
           possibleNextMoves.push({
@@ -148,7 +148,7 @@ export function calculateMoves(from: string, to: string): Move[] {
   }
 
   // Now we create an array of moves from our partial array.
-  const moves = []
+  const moves: Move[] = []
   let current = partial[from.length][to.length]
   while (current.previous) {
     moves.unshift(current.move)
