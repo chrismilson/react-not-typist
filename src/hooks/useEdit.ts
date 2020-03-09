@@ -4,8 +4,8 @@ import { EditableString } from '../types/string'
 import { MoveType } from '../types/moves'
 
 class KeyPool {
-  _free: number[]
-  _next = 0
+  private _free: number[]
+  private _next = 0
 
   free(key: number): void {
     this._free.push(key)
