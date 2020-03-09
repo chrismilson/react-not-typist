@@ -1,0 +1,40 @@
+.Changer {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  transition: width var(--speed) var(--widen-delay) ease;
+  white-space: pre;
+
+  .from, .to {
+    position: absolute;
+    top: 0;
+  }
+
+  .from {
+    opacity: 0;
+    user-select: none;
+  }
+  .to {
+    opacity: 1;
+  }
+
+  &.fading {
+    .from, .to {
+      animation-name: fade;
+      // The speed variable is passed from the inline styles
+      animation-duration: var(--speed);
+      animation-delay: var(--speed);
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
+
+    .from {
+      animation-direction: reverse;
+    }
+  }
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
