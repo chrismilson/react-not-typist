@@ -8,7 +8,7 @@ different style.
 
 <img src="demo/demo.gif" alt="The component in action" height=100 />
 
-Also on [codepen](https://codepen.io/chrismilson/pen/mdyKOZB).
+Also on [codepen](https://codepen.io/chrismilson/pen/gObQJZV).
 
 ## Installation
 
