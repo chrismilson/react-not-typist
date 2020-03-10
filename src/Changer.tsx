@@ -27,7 +27,7 @@ const Changer: React.FC<ChangerProps> = props => {
   const styles = {
     '--speed': `${Math.floor(speed / 3)}ms`,
     '--widen-delay': `${
-      width.from > width.to ? 0 : Math.floor((2 * speed) / 3)
+      width.from < width.to ? 0 : Math.floor((2 * speed) / 3)
     }ms`,
     width: width.to
   }
