@@ -1,6 +1,6 @@
 {
   "name": "react-not-typist",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A text carousel that doest NOT simulate a typewriter.",
   "main": "lib/NotTypist.js",
   "module": "lib/NotTypist.es.js",
