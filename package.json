@@ -4,6 +4,7 @@
   "description": "A text carousel that doest NOT simulate a typewriter.",
   "main": "lib/NotTypist.js",
   "module": "lib/NotTypist.es.js",
+  "style": "lib/NotTypist.css",
   "files": [
     "lib/**/*"
   ],
