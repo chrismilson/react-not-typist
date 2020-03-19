@@ -9,28 +9,41 @@ export enum MoveType {
 }
 
 /* Some move actions */
-export interface LeaveMove {
-  type: typeof MoveType.LEAVE
+export class LeaveMove {
+  type = MoveType.LEAVE
+  cost = 0
 }
 
-export interface AddMove {
-  type: typeof MoveType.ADD
+export class AddMove {
+  type = MoveType.ADD
+  cost = 1
   char: string
+
+  constructor(char: string) {
+    this.char = char
+  }
 }
 
-export interface RemoveMove {
-  type: typeof MoveType.REMOVE
+export class RemoveMove {
+  type = MoveType.REMOVE
+  cost = 1
 }
 
-export interface ReplaceMove {
-  type: typeof MoveType.REPLACE
+export class ReplaceMove {
+  type = MoveType.REPLACE
+  cost = 1
   char: string
+
+  constructor(char: string) {
+    this.char = char
+  }
 }
 
 /** A union type for any move */
 export type Move = LeaveMove | AddMove | RemoveMove | ReplaceMove
 
 export type MoveListNode = {
+  /** The cumulative cost of the moves up until and including this move */
   cost: number
   move: Move
   previous: MoveListNode

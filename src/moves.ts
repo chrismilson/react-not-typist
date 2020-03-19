@@ -1,5 +1,4 @@
 import {
-  MoveType,
   LeaveMove,
   AddMove,
   RemoveMove,
@@ -7,25 +6,6 @@ import {
   Move,
   MoveListNode
 } from './types/moves'
-
-/* Some move action creators */
-export const leave = (): LeaveMove => ({
-  type: MoveType.LEAVE
-})
-
-export const add = (char: string): AddMove => ({
-  type: MoveType.ADD,
-  char
-})
-
-export const remove = (): RemoveMove => ({
-  type: MoveType.REMOVE
-})
-
-export const replace = (char: string): ReplaceMove => ({
-  type: MoveType.REPLACE,
-  char
-})
 
 /**
  * Produces a list of moves to edit a given string into another string. The
@@ -73,7 +53,7 @@ export function calculateMoves(from: string, to: string): Move[] {
     partial[i + 1] = [
       {
         cost: i + 1,
-        move: remove(),
+        move: new RemoveMove(),
         previous: partial[i][0]
       }
     ]
@@ -82,7 +62,7 @@ export function calculateMoves(from: string, to: string): Move[] {
   for (let j = 0; j < to.length; j++) {
     partial[0][j + 1] = {
       cost: j + 1,
-      move: add(to[j]),
+      move: new AddMove(to[j]),
       previous: partial[0][j]
     }
   }
@@ -93,7 +73,7 @@ export function calculateMoves(from: string, to: string): Move[] {
       if (from[i] === to[j]) {
         partial[i + 1][j + 1] = {
           cost: partial[i][j].cost,
-          move: leave(),
+          move: new LeaveMove(),
           previous: partial[i][j]
         }
       } else {
@@ -119,21 +99,21 @@ export function calculateMoves(from: string, to: string): Move[] {
         if (partial[i + 1][j].cost === minCost) {
           possibleNextMoves.push({
             cost: minCost + 1,
-            move: add(to[j]),
+            move: new AddMove(to[j]),
             previous: partial[i + 1][j]
           })
         }
         if (partial[i][j + 1].cost === minCost) {
           possibleNextMoves.push({
             cost: minCost + 1,
-            move: remove(),
+            move: new RemoveMove(),
             previous: partial[i][j + 1]
           })
         }
         if (partial[i][j].cost === minCost) {
           possibleNextMoves.push({
             cost: minCost + 1,
-            move: replace(to[j]),
+            move: new ReplaceMove(to[j]),
             previous: partial[i][j]
           })
         }
