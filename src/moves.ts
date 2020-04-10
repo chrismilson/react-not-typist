@@ -70,60 +70,50 @@ export function calculateMoves(from: string, to: string): Move[] {
   // partial[i][j] represents from.substr(0, i) -> to.substr(0, j)
   for (let i = 0; i < from.length; i++) {
     for (let j = 0; j < to.length; j++) {
-      if (from[i] === to[j]) {
-        partial[i + 1][j + 1] = {
-          cost: partial[i][j].cost,
-          move: new LeaveMove(),
-          previous: partial[i][j]
-        }
-      } else {
-        // To edit from.substr(0, i + 1) -> to.substr(0, j + 1) we can either
-        //
-        // - Do from.substr(0, i + 1) -> to.substr(0, j) and add to[j];
-        // - Do from.substr(0, i + 1) -> to.substr(0, j + 1) and remove from[i];
-        //   or,
-        // - Do from.substr(0, i) -> to.substr(0, j) and replace from[i] with
-        //   to[j].
-        //
-        // The move that will be chosen must have the minimum cost, however
-        // there may be more than one move that does have the monimum cost.
+      // To edit from.substr(0, i + 1) -> to.substr(0, j + 1) we can either
+      //
+      // - Do from.substr(0, i + 1) -> to.substr(0, j) and add to[j];
+      // - Do from.substr(0, i + 1) -> to.substr(0, j + 1) and remove from[i];
+      //   or,
+      // - Do from.substr(0, i) -> to.substr(0, j) and replace from[i] with
+      //   to[j].
+      //
+      // The move that will be chosen must have the minimum cost, however
+      // there may be more than one move that does have the minimum cost.
 
-        const minCost = Math.min(
-          partial[i + 1][j].cost, // add
-          partial[i][j + 1].cost, // remove
-          partial[i][j].cost // replace
-        )
-
-        const possibleNextMoves: MoveListNode[] = []
-
-        if (partial[i + 1][j].cost === minCost) {
-          possibleNextMoves.push({
-            cost: minCost + 1,
-            move: new AddMove(to[j]),
-            previous: partial[i + 1][j]
-          })
-        }
-        if (partial[i][j + 1].cost === minCost) {
-          possibleNextMoves.push({
-            cost: minCost + 1,
-            move: new RemoveMove(),
-            previous: partial[i][j + 1]
-          })
-        }
-        if (partial[i][j].cost === minCost) {
-          possibleNextMoves.push({
-            cost: minCost + 1,
-            move: new ReplaceMove(to[j]),
-            previous: partial[i][j]
-          })
-        }
-
-        // Choose the next move from the possibles randomly.
-        partial[i + 1][j + 1] =
-          possibleNextMoves[
-            Math.floor(Math.random() * possibleNextMoves.length)
-          ]
+      const add: MoveListNode = {
+        cost: partial[i + 1][j].cost + AddMove.cost,
+        move: new AddMove(to[j]),
+        previous: partial[i + 1][j]
       }
+
+      const remove: MoveListNode = {
+        cost: partial[i][j + 1].cost + RemoveMove.cost,
+        move: new RemoveMove(),
+        previous: partial[i][j + 1]
+      }
+
+      const replace: MoveListNode = {
+        cost: partial[i][j].cost + ReplaceMove.cost,
+        move: new ReplaceMove(to[j]),
+        previous: partial[i][j]
+      }
+
+      const leave: MoveListNode = {
+        cost: partial[i][j].cost + LeaveMove.cost,
+        move: new LeaveMove(),
+        previous: partial[i][j]
+      }
+
+      const possibleNextMoves: MoveListNode[] = [add, remove, replace]
+      if (from[i] === to[j]) possibleNextMoves.push(leave)
+
+      const minCost = Math.min(...possibleNextMoves.map(m => m.cost))
+      const minCostMoves = possibleNextMoves.filter(m => m.cost === minCost)
+
+      // Choose the next move from the possibles randomly.
+      const randomIdx = Math.floor(Math.random() * minCostMoves.length)
+      partial[i + 1][j + 1] = minCostMoves[randomIdx]
     }
   }
 

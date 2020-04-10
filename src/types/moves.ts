@@ -10,13 +10,13 @@ export enum MoveType {
 
 /* Some move actions */
 export class LeaveMove {
+  static cost = -2
   type = MoveType.LEAVE
-  cost = 0
 }
 
 export class AddMove {
+  static cost = 1
   type = MoveType.ADD
-  cost = 1
   char: string
 
   constructor(char: string) {
@@ -25,13 +25,13 @@ export class AddMove {
 }
 
 export class RemoveMove {
+  static cost = 1
   type = MoveType.REMOVE
-  cost = 1
 }
 
 export class ReplaceMove {
+  static cost = 1
   type = MoveType.REPLACE
-  cost = 1
   char: string
 
   constructor(char: string) {
