@@ -1,5 +1,5 @@
 /**
- * A string can be though of as an array of characters. An editable string is
+ * A string can be thought of as an array of characters. An EditableString is
  * just that except each character has an associated key with it.
  *
  * This key reveals any edits that may have happened between strings. It can be
