@@ -1,7 +1,7 @@
 import { useState, useLayoutEffect } from 'react'
 import { calculateMoves } from '../moves'
 import { EditableString } from '../types/string'
-import { MoveType } from '../types/moves'
+import { MoveType, AddMove, ReplaceMove } from '../types/moves'
 
 class KeyPool {
   private _free: number[] = []
@@ -62,18 +62,19 @@ export default function useEdit(target: string): EditableString {
       // target string.
       calculateMoves(current.map(({ char }) => char).join(''), target).forEach(
         (move, idx) => {
-          // The usage of index from the moves array is OK because a remove move
-          // DO NOT reduce the length of the array. They are actually a
-          // replacement by the empty character, and only appear to be removed.
+          // The usage of idx (the index from the moves array) is OK because a
+          // remove move DO NOT reduce the length of the array. They are
+          // actually a replacement by the empty character, so only appear to
+          // be removed.
           if (move.type === MoveType.ADD) {
             current.splice(idx, 0, {
-              char: move.char,
+              char: (move as AddMove).char,
               key: keys.next()
             })
           } else if (move.type === MoveType.REMOVE) {
             current[idx].char = ''
           } else if (move.type === MoveType.REPLACE) {
-            current[idx].char = move.char
+            current[idx].char = (move as ReplaceMove).char
           }
         }
       )
