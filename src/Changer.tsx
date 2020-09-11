@@ -1,8 +1,13 @@
 import React, { useLayoutEffect, useRef, useState } from 'react'
-import PropTypes from 'prop-types'
-import { ChangerProps } from './types/props'
 import usePrevious from './hooks/usePrevious'
 import './Changer.scss'
+
+export interface ChangerProps {
+  /** The current character to display. */
+  readonly char: string
+  /** The time taken in miliseconds for the transition to complete */
+  readonly speed: number
+}
 
 const Changer: React.FC<ChangerProps> = props => {
   const { char: to, speed } = props
@@ -42,11 +47,6 @@ const Changer: React.FC<ChangerProps> = props => {
       </span>
     </span>
   )
-}
-
-Changer.propTypes = {
-  char: PropTypes.string.isRequired,
-  speed: PropTypes.number.isRequired
 }
 
 export default Changer
