@@ -1,10 +1,14 @@
 import React from 'react'
-import { NotTypistProps } from './types/props'
-import PropTypes from 'prop-types'
-import useRotate from './hooks/useRotate'
 import useEdit from './hooks/useEdit'
 import Changer from './Changer'
 import './NotTypist.scss'
+
+export interface NotTypistProps {
+  /** The list of strings to rotate through. */
+  readonly text: string
+  /** The time taken for the transition between words to complete. */
+  readonly speed?: number
+}
 
 /**
  * A text carousel that performs different character operations on strings to
@@ -14,11 +18,8 @@ import './NotTypist.scss'
  * it will rotate through displaying each of the strings, and the transition
  * between the strings is based on the Levenshtein distance between the strings.
  */
-const NotTypist: React.FC<NotTypistProps> = props => {
-  const { words, speed, delay } = props
-
-  const currentWord = useRotate(words, speed + delay)
-  const displayChars = useEdit(currentWord)
+const NotTypist: React.FC<NotTypistProps> = ({ text, speed = 1000 }) => {
+  const displayChars = useEdit(text)
 
   return (
     <span className="NotTypist">
@@ -27,18 +28,6 @@ const NotTypist: React.FC<NotTypistProps> = props => {
       ))}
     </span>
   )
-}
-
-NotTypist.propTypes = {
-  words: PropTypes.arrayOf(PropTypes.string).isRequired,
-  speed: PropTypes.number.isRequired,
-  delay: PropTypes.number.isRequired
-}
-
-NotTypist.defaultProps = {
-  words: ['this was', 'made by', 'chris milson'],
-  speed: 1000,
-  delay: 1000
 }
 
 export default NotTypist
